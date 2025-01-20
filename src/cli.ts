@@ -32,7 +32,7 @@ if (positionals.length === 0) {
 }
 
 const browser = await createBrowser();
-const server = createStaticServer();
+const server = await createStaticServer();
 // @ts-ignore -- this is checked in createStaticServer
 const port: number = server.address().port;
 const styleCss = await getStyleCss(style);
