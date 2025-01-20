@@ -14,14 +14,17 @@ export async function processExample(
 	background: boolean,
 ): Promise<void> {
 	const { name } = parse(source);
-	const formatted = await formatSnippet(await readFile(source, "utf-8"), {
-		highlight: { language: "typescript" },
-		prettier: { parser: "espree", printWidth: 50, useTabs: false },
+	const { content: formatted, language } = await formatSnippet(await readFile(source, "utf-8"), {
+		prettier: { filepath: source, printWidth: 50, useTabs: false },
 	});
 	const page = await browser.newPage();
 	await page.goto(url);
+	const classes = ["hljs"];
+	if (language) {
+		classes.push(`language-${language}`);
+	}
 	await page.setContent(
-		`<pre id="root" style="width: max-content;"><code class="hljs language-typescript">${formatted}</code></pre>`,
+		`<pre id="root" style="width: max-content;"><code class="${classes.join(" ")}">${formatted}</code></pre>`,
 	);
 	await page.addStyleTag({ content: styleCss });
 	if (!background) {
