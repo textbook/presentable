@@ -5,6 +5,7 @@ import { parseArgs } from "node:util";
 import { createBrowser } from "./browser.js";
 import { processExample } from "./index.js";
 import { createStaticServer } from "./server.js";
+import { getStyleCss } from "./style.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -25,10 +26,11 @@ const browser = await createBrowser();
 const server = createStaticServer();
 // @ts-ignore -- this is checked in createStaticServer
 const port: number = server.address().port;
+const styleCss = await getStyleCss(style);
 
 try {
 	for (const file of positionals) {
-		await processExample(browser, `http://localhost:${port}`, file, style, output);
+		await processExample(browser, `http://localhost:${port}`, file, styleCss, output);
 	}
 } catch (err) {
 	console.error(err);
