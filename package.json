@@ -1,13 +1,14 @@
 {
   "name": "presentable",
   "version": "0.1.0",
+  "bin": "lib/cli.js",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": ["index.html", "lib/"],
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "prestart": "npm run build",
-    "start": "node lib/index.js",
+    "start": "node lib/cli.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -4,9 +4,10 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const port = parseInt(process.env.PORT ?? "0", 10);
 
 export function createStaticServer(): Server {
-	return createServer(async (req, res) => {
+	const server = createServer(async (req, res) => {
 		try {
 			if (req.method !== "GET") {
 				res.statusCode = 405;
@@ -29,4 +30,12 @@ export function createStaticServer(): Server {
 			console.info(`${req.method} ${req.url} - ${res.statusCode}`)
 		}
 	});
+	server.listen(port, () => {
+		const bound = server.address();
+		if (typeof bound !== "object" || bound === null) {
+			throw new Error(`invalid binding ${bound}`);
+		}
+		console.info(`listening on ${bound.port}`);
+	});
+	return server;
 }
