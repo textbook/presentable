@@ -6,7 +6,7 @@ describe("POST /things", () => {
 			.post(`${app}/things`, { name: "foo" });
 		expect(res.status).toBe(201);
 
-		res = await axios.get("${app}/things");
+		res = await axios.get(`${app}/things`);
 		expect(res.status).toBe(200);
 		expect(res.data).toHaveLength(1);
 		expect(res.data[0])
