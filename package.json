@@ -1,0 +1,28 @@
+{
+  "name": "presentable",
+  "version": "0.1.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": ["index.html", "lib/"],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "prestart": "npm run build",
+    "start": "node lib/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jonathan Sharpe <mail@jonrshar.pe>",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "prettier": "^3.4.2",
+    "puppeteer": "^24.1.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@tsconfig/node18": "^18.2.4",
+    "@types/node": "^18.19.71",
+    "typescript": "^5.7.3"
+  }
+}
