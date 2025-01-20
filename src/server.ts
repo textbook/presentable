@@ -11,7 +11,7 @@ export function createStaticServer(): Server {
 		try {
 			if (req.method !== "GET") {
 				res.statusCode = 405;
-				res.setHeader("Allow", "GET")
+				res.setHeader("Allow", "GET");
 				res.end();
 			} else if (req.url === "/") {
 				const content = await readFile(join(__dirname, "..", "index.html"));
@@ -27,7 +27,7 @@ export function createStaticServer(): Server {
 			res.statusCode = 500;
 			res.end();
 		} finally {
-			console.info(`${req.method} ${req.url} - ${res.statusCode}`)
+			console.info(`${req.method} ${req.url} - ${res.statusCode}`);
 		}
 	});
 	server.listen(port, () => {

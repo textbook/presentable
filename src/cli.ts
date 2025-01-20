@@ -9,10 +9,18 @@ import { getStyleCss } from "./style.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const { positionals, values: { output, style } } = parseArgs({
+const {
+	positionals,
+	values: { background, output, style },
+} = parseArgs({
 	allowPositionals: true,
 	options: {
-		output: { short: "o", type: "string", default: join(__dirname, "..", "output") },
+		background: { short: "b", type: "boolean", default: true },
+		output: {
+			short: "o",
+			type: "string",
+			default: join(__dirname, "..", "output"),
+		},
 		style: { short: "s", type: "string", default: "default" },
 	},
 });
@@ -30,7 +38,14 @@ const styleCss = await getStyleCss(style);
 
 try {
 	for (const file of positionals) {
-		await processExample(browser, `http://localhost:${port}`, file, styleCss, output);
+		await processExample(
+			browser,
+			`http://localhost:${port}`,
+			file,
+			styleCss,
+			output,
+			background,
+		);
 	}
 } catch (err) {
 	console.error(err);

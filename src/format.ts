@@ -6,7 +6,10 @@ interface Options {
 	prettier?: import("prettier").Options;
 }
 
-export async function formatSnippet(code: string, { highlight, prettier }: Options): Promise<string> {
+export async function formatSnippet(
+	code: string,
+	{ highlight, prettier }: Options,
+): Promise<string> {
 	const formatted = await format(code, prettier);
 	return hljs.highlight(formatted, highlight).value;
 }
