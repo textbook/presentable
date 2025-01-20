@@ -14,9 +14,12 @@ export async function processExample(
 	background: boolean,
 ): Promise<void> {
 	const { name } = parse(source);
-	const { content: formatted, language } = await formatSnippet(await readFile(source, "utf-8"), {
-		prettier: { filepath: source, printWidth: 50, useTabs: false },
-	});
+	const { content: formatted, language } = await formatSnippet(
+		await readFile(source, "utf-8"),
+		{
+			prettier: { filepath: source, printWidth: 50, useTabs: false },
+		},
+	);
 	const page = await browser.newPage();
 	await page.goto(url);
 	const classes = ["hljs"];
@@ -28,7 +31,9 @@ export async function processExample(
 	);
 	await page.addStyleTag({ content: styleCss });
 	if (!background) {
-		await page.addStyleTag({ content: ".hljs { background-color: transparent !important; }" });
+		await page.addStyleTag({
+			content: ".hljs { background-color: transparent !important; }",
+		});
 	}
 	await writeFile(join(outDir, `${name}.html`), await page.content());
 	await page.screenshot({
