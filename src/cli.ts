@@ -14,6 +14,7 @@ const {
 	values: { background, output, style },
 } = parseArgs({
 	allowPositionals: true,
+	allowNegative: true,
 	options: {
 		background: { short: "b", type: "boolean", default: true },
 		output: {

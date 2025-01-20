@@ -24,6 +24,9 @@ export async function processExample(
 		`<pre id="root" style="width: max-content;"><code class="hljs language-typescript">${formatted}</code></pre>`,
 	);
 	await page.addStyleTag({ content: styleCss });
+	if (!background) {
+		await page.addStyleTag({ content: ".hljs { background-color: transparent !important; }" });
+	}
 	await writeFile(join(outDir, `${name}.html`), await page.content());
 	await page.screenshot({
 		clip: (await page.$("#root").then((el) => el?.boundingBox())) ?? undefined,
