@@ -9,6 +9,7 @@ import { loadFont } from "./style.js";
 interface Options {
 	background: boolean;
 	font?: string;
+	printWidth: number
 	styleCss: string;
 }
 
@@ -62,10 +63,10 @@ async function render(
 	content: string,
 	source: string,
 	outDir: string,
-	{ background, font, styleCss }: Options,
+	{ background, font, printWidth, styleCss }: Options,
 ): Promise<void> {
 	const formatted = await formatSnippet(content, {
-		prettier: { filepath: source, printWidth: 50, useTabs: false },
+		prettier: { filepath: source, printWidth, useTabs: false },
 	});
 	await page.setContent(
 		`<!DOCTYPE html><pre id="root" style="width: max-content;"><code class="hljs">${formatted}</code></pre>`,

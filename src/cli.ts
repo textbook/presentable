@@ -13,7 +13,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const {
 	positionals,
-	values: { background, font, output, style },
+	values: { background, font, output, style, width },
 } = parseArgs({
 	allowPositionals: true,
 	allowNegative: true,
@@ -26,6 +26,7 @@ const {
 			default: join(__dirname, "..", "output"),
 		},
 		style: { short: "s", type: "string", default: "default" },
+		width: { short: "w", type: "string", default: "50" },
 	},
 });
 
@@ -46,6 +47,7 @@ try {
 		await processExample(browser, `http://localhost:${port}`, file, output, {
 			background,
 			font,
+			printWidth: parseInt(width, 10),
 			styleCss,
 		});
 	}
