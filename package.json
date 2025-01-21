@@ -6,8 +6,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
-    "index.html",
-    "lib/"
+    "docs/",
+    "lib/",
+    "index.html"
   ],
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
