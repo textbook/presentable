@@ -1,8 +1,6 @@
-import { afterAll, beforeAll, describe, expect, it } from "@jest/globals";
 import axios from "axios";
 import express from "express";
 
-const port = parseInt(process.env.PORT ?? "3000", 10);
 const things = [];
 
 function deleteAllThings() {
@@ -21,17 +19,16 @@ application.post("/things", (req, res) => {
 	res.sendStatus(201);
 });
 
-let server;
+let app, server;
 
 beforeAll(() => {
-	server = application.listen(3000);
+	server = application.listen(0);
+	app = `http://localhost:${server.address().port}`;
 });
 
 afterAll(() => {
 	server?.close();
 });
-
-const app = `http://localhost:${port}`;
 
 //#region snippet
 describe("POST /things", () => {

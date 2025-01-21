@@ -22,6 +22,9 @@
     "start": "node lib/cli.js",
     "test-snippet": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
+  "jest": {
+    "transform": {}
+  },
   "prettier": {
     "useTabs": true
   },
