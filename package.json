@@ -11,10 +11,14 @@
   ],
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
-    "format": "prettier --use-tabs --write src/**/*.ts",
+    "format": "prettier --write src/**/*.ts",
+    "lint": "prettier --check src/**/*.ts",
     "prestart": "npm run build",
     "start": "node lib/cli.js",
     "test-snippet": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "prettier": {
+    "useTabs": true
   },
   "engines": {
     "node": ">=20.16"
