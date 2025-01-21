@@ -2,6 +2,10 @@
   "name": "presentable",
   "version": "0.2.0",
   "description": "Easily create formatted code snippets for presentations",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "bin": "lib/cli.js",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
