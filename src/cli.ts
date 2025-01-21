@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { mkdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
@@ -37,6 +38,7 @@ const server = await createStaticServer();
 // @ts-ignore -- this is checked in createStaticServer
 const port: number = server.address().port;
 const styleCss = await getStyleCss(style);
+await mkdir(output, { recursive: true });
 
 try {
 	for (const file of positionals) {
