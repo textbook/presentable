@@ -2,13 +2,8 @@ import { readdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const styleDir = join(
-	__dirname,
-	"..",
-	"node_modules",
-	"highlight.js",
-	"styles",
+const styleDir = dirname(
+	fileURLToPath(import.meta.resolve("highlight.js/styles/default.css")),
 );
 
 export async function getStyleCss(name: string): Promise<string> {
