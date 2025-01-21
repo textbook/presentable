@@ -22,8 +22,8 @@ const prettierSupported: string[] = [
 export async function formatSnippet(
 	code: string,
 	{ prettier }: Options,
-): Promise<{ content: string; language?: string }> {
+): Promise<string> {
 	const formatted = await format(code, prettier);
 	const result = hljs.highlightAuto(formatted, prettierSupported);
-	return { content: result.value, language: result.language };
+	return result.value;
 }

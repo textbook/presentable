@@ -1,33 +1,72 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { join, parse } from "node:path";
+import { format, join, parse } from "node:path";
 
-import { Browser } from "puppeteer";
+import { Browser, Page } from "puppeteer";
 
 import { formatSnippet } from "./format.js";
+
+interface Options {
+	background: boolean;
+	styleCss: string;
+}
 
 export async function processExample(
 	browser: Browser,
 	url: string,
 	source: string,
-	styleCss: string,
 	outDir: string,
-	background: boolean,
+	{ background, styleCss }: Options,
 ): Promise<void> {
-	const { name } = parse(source);
-	const { content: formatted, language } = await formatSnippet(
-		await readFile(source, "utf-8"),
-		{
-			prettier: { filepath: source, printWidth: 50, useTabs: false },
-		},
-	);
+	const { dir, ext, name } = parse(source);
+	const content = await readFile(source, "utf-8");
+	if (content.match(/^\/\/#region.*$/m) !== null) {
+		await Promise.all(
+			extractSnippets(content).map(async (snippet, index) => {
+				const page = await loadPage(browser, url);
+				await render(
+					page,
+					snippet,
+					format({ dir, ext, name: `${name}-${index + 1}` }),
+					outDir,
+					{ background, styleCss },
+				);
+			}),
+		);
+		return;
+	}
+	const page = await loadPage(browser, url);
+	await render(page, content, source, outDir, { background, styleCss });
+}
+
+function extractSnippets(content: string): string[] {
+	const sections = content.split(/^\/\/(#(?:end)?region).*$/m);
+	const snippets: string[] = [];
+	sections.forEach((section, index) => {
+		if (section === "#region") {
+			snippets.push(sections[index + 1].trim());
+		}
+	});
+	return snippets;
+}
+
+async function loadPage(browser: Browser, url: string): Promise<Page> {
 	const page = await browser.newPage();
 	await page.goto(url);
-	const classes = ["hljs"];
-	if (language) {
-		classes.push(`language-${language}`);
-	}
+	return page;
+}
+
+async function render(
+	page: Page,
+	content: string,
+	source: string,
+	outDir: string,
+	{ background, styleCss }: Options,
+): Promise<void> {
+	const formatted = await formatSnippet(content, {
+		prettier: { filepath: source, printWidth: 50, useTabs: false },
+	});
 	await page.setContent(
-		`<pre id="root" style="width: max-content;"><code class="${classes.join(" ")}">${formatted}</code></pre>`,
+		`<pre id="root" style="width: max-content;"><code class="hljs">${formatted}</code></pre>`,
 	);
 	await page.addStyleTag({ content: styleCss });
 	if (!background) {
@@ -35,11 +74,16 @@ export async function processExample(
 			content: ".hljs { background-color: transparent !important; }",
 		});
 	}
-	await writeFile(join(outDir, `${name}.html`), await page.content());
+	const { name } = parse(source);
+	const htmlFile = join(outDir, `${name}.html`);
+	console.info(`writing ${htmlFile}`);
+	await writeFile(htmlFile, await page.content());
+	const pngFile = join(outDir, `${name}.png`);
+	console.info(`writing ${pngFile}`);
 	await page.screenshot({
 		clip: (await page.$("#root").then((el) => el?.boundingBox())) ?? undefined,
 		omitBackground: !background,
-		path: join(outDir, `${name}.png`),
+		path: pngFile,
 		type: "png",
 	});
 }

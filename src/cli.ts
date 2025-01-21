@@ -39,14 +39,10 @@ const styleCss = await getStyleCss(style);
 
 try {
 	for (const file of positionals) {
-		await processExample(
-			browser,
-			`http://localhost:${port}`,
-			file,
-			styleCss,
-			output,
+		await processExample(browser, `http://localhost:${port}`, file, output, {
 			background,
-		);
+			styleCss,
+		});
 	}
 } catch (err) {
 	console.error(err);
