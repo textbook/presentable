@@ -4,9 +4,11 @@ import { format, join, parse } from "node:path";
 import { Browser, Page } from "puppeteer";
 
 import { formatSnippet } from "./format.js";
+import { loadFont } from "./style.js";
 
 interface Options {
 	background: boolean;
+	font?: string;
 	styleCss: string;
 }
 
@@ -15,7 +17,7 @@ export async function processExample(
 	url: string,
 	source: string,
 	outDir: string,
-	{ background, styleCss }: Options,
+	options: Options,
 ): Promise<void> {
 	const { dir, ext, name } = parse(source);
 	const content = await readFile(source, "utf-8");
@@ -28,14 +30,14 @@ export async function processExample(
 					snippet,
 					format({ dir, ext, name: `${name}-${index + 1}` }),
 					outDir,
-					{ background, styleCss },
+					options,
 				);
 			}),
 		);
 		return;
 	}
 	const page = await loadPage(browser, url);
-	await render(page, content, source, outDir, { background, styleCss });
+	await render(page, content, source, outDir, options);
 }
 
 function extractSnippets(content: string): string[] {
@@ -60,15 +62,18 @@ async function render(
 	content: string,
 	source: string,
 	outDir: string,
-	{ background, styleCss }: Options,
+	{ background, font, styleCss }: Options,
 ): Promise<void> {
 	const formatted = await formatSnippet(content, {
 		prettier: { filepath: source, printWidth: 50, useTabs: false },
 	});
 	await page.setContent(
-		`<pre id="root" style="width: max-content;"><code class="hljs">${formatted}</code></pre>`,
+		`<!DOCTYPE html><pre id="root" style="width: max-content;"><code class="hljs">${formatted}</code></pre>`,
 	);
 	await page.addStyleTag({ content: styleCss });
+	if (font) {
+		await loadFont(page, font);
+	}
 	if (!background) {
 		await page.addStyleTag({
 			content: ".hljs { background-color: transparent !important; }",

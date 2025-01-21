@@ -13,12 +13,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const {
 	positionals,
-	values: { background, output, style },
+	values: { background, font, output, style },
 } = parseArgs({
 	allowPositionals: true,
 	allowNegative: true,
 	options: {
 		background: { short: "b", type: "boolean", default: true },
+		font: { short: "f", type: "string" },
 		output: {
 			short: "o",
 			type: "string",
@@ -44,6 +45,7 @@ try {
 	for (const file of positionals) {
 		await processExample(browser, `http://localhost:${port}`, file, output, {
 			background,
+			font,
 			styleCss,
 		});
 	}

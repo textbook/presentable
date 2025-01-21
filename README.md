@@ -13,7 +13,10 @@ Alternatively, prefix the below command with [`npx --yes`][3].
 ## Usage
 
 ```bash
-presentable --style 'stackoverflow-light' path/to/snippets/*.js
+presentable \
+  --font 'JetBrains Mono' \
+  --style 'stackoverflow-light' \
+  path/to/snippets/*.js
 ```
 
 would create an image (`test-1.png`) like:
@@ -27,6 +30,7 @@ along with the HTML (`test-1.html`) used to render the image.
 As well as a positional list of files to process, the CLI accepts the following flags:
 
 - `--background`/`-b`: whether to include the background (default: `true`)
+- `--font`/`-f`: the name of a font on [Google Fonts][4] to use (default: `undefined`, accept Chrome's default)
 - `--output`/`-o`: the directory to output to (default: `"output/"`)
 - `--style`/`-s`: the Highlight.js style to use (default: `"default"`) - you can preview these [here][2]
 
@@ -47,3 +51,4 @@ the code from each region is extracted and saved into a separate file.
 [1]: docs/test.png
 [2]: https://highlightjs.org/demo
 [3]: https://docs.npmjs.com/cli/v10/commands/npx
+[4]: https://fonts.google.com/?categoryFilters=Appearance:%2FMonospace%2FMonospace
