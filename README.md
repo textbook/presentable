@@ -2,10 +2,18 @@
 
 Easily create formatted code snippets for presentations.
 
+## Installation
+
+```bash
+npm install --global presentable
+```
+
+Alternatively, prefix the below command with [`npx --yes`][3].
+
 ## Usage
 
 ```bash
-presentable --style 'stackoverflow-light' snippets/*.js
+presentable --style 'stackoverflow-light' path/to/snippets/*.js
 ```
 
 would create an image (`test-1.png`) like:
@@ -38,3 +46,4 @@ the code from each region is extracted and saved into a separate file.
 
 [1]: docs/test.png
 [2]: https://highlightjs.org/demo
+[3]: https://docs.npmjs.com/cli/v10/commands/npx
