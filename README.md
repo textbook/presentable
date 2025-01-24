@@ -30,7 +30,7 @@ along with the HTML (`test-1.html`) used to render the image.
 As well as a positional list of files to process, the CLI accepts the following flags:
 
 - `--background`/`-b`: whether to include the background (default: `true`)
-- `--font`/`-f`: the name of a font on [Google Fonts][4] to use (default: `undefined`, accept Chrome's default)
+- `--font`/`-f`: the name of a font on [Google Fonts][4] to use (default: `undefined`, accept the UI's default)
 - `--output`/`-o`: the directory to output to (default: `"output/"`)
 - `--style`/`-s`: the Highlight.js style to use (default: `"default"`) - you can preview these [here][2]
 - `--width`/`-w`: the target [print width][5] (default: `50`, a reasonable fit for half a slide)

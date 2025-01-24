@@ -74,6 +74,8 @@ async function render(
 	await page.addStyleTag({ content: styleCss });
 	if (font) {
 		await loadFont(page, font);
+	} else {
+		await page.addStyleTag({ content: ".hljs { font-family: ui-monospace, monospace; }" })
 	}
 	if (!background) {
 		await page.addStyleTag({
