@@ -21,7 +21,7 @@ export async function processExample(
 ): Promise<void> {
 	const { dir, ext, name } = parse(source);
 	const content = await readFile(source, "utf-8");
-	if (content.match(/^\/\/#region.*$/m) !== null) {
+	if (/^\/\/#region.*$/m.exec(content) !== null) {
 		await Promise.all(
 			extractSnippets(content).map(async (snippet, index) => {
 				const page = await browser.newPage();
