@@ -84,3 +84,32 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - run: npm publish --provenance package.tgz
+  smoke-test:
+    runs-on: ubuntu-24.04
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [ deploy-npm ]
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: |
+          cat << EOF > demo.js
+          function demo(arg) {
+            if (typeof arg !== "string") {
+              throw new Error(`invalid arg type: ${typeof arg}`);
+            }
+            return arg.toLocaleLowerCase();
+          }
+          EOF
+      - run: |
+          npx presentable@${{ github.ref_name }} \
+            --font 'JetBrains Mono' \
+            --output outputs \
+            --style 'intellij-light' \
+            --width 80 \
+            demo.js
+      - uses: actions/upload-artifact@v4
+        with:
+          if-no-files-found: error
+          name: outputs
+          path: outputs
