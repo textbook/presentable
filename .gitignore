@@ -2,4 +2,4 @@ lib/
 node_modules/
 output/
 !output/.gitkeep
-presentable-0.1.0.tgz
+presentable-*.tgz

@@ -6,7 +6,6 @@ import { parseArgs } from "node:util";
 
 import { createBrowser } from "./browser.js";
 import { processExample } from "./index.js";
-import { createStaticServer } from "./server.js";
 import { getStyleCss } from "./style.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -36,15 +35,12 @@ if (positionals.length === 0) {
 }
 
 const browser = await createBrowser();
-const server = await createStaticServer();
-// @ts-ignore -- this is checked in createStaticServer
-const port: number = server.address().port;
 const styleCss = await getStyleCss(style);
 await mkdir(output, { recursive: true });
 
 try {
 	for (const file of positionals) {
-		await processExample(browser, `http://localhost:${port}`, file, output, {
+		await processExample(browser, file, output, {
 			background,
 			font,
 			printWidth: parseInt(width, 10),
@@ -56,5 +52,4 @@ try {
 	process.exitCode = 1;
 } finally {
 	await browser.close();
-	server.close();
 }

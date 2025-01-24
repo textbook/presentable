@@ -11,8 +11,7 @@
   "types": "lib/index.d.ts",
   "files": [
     "docs/",
-    "lib/",
-    "index.html"
+    "lib/"
   ],
   "scripts": {
     "build": "tsc --project tsconfig.build.json",

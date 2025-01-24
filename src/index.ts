@@ -15,7 +15,6 @@ interface Options {
 
 export async function processExample(
 	browser: Browser,
-	url: string,
 	source: string,
 	outDir: string,
 	options: Options,
@@ -25,7 +24,7 @@ export async function processExample(
 	if (content.match(/^\/\/#region.*$/m) !== null) {
 		await Promise.all(
 			extractSnippets(content).map(async (snippet, index) => {
-				const page = await loadPage(browser, url);
+				const page = await browser.newPage();
 				await render(
 					page,
 					snippet,
@@ -37,7 +36,7 @@ export async function processExample(
 		);
 		return;
 	}
-	const page = await loadPage(browser, url);
+	const page = await browser.newPage();
 	await render(page, content, source, outDir, options);
 }
 
@@ -50,12 +49,6 @@ function extractSnippets(content: string): string[] {
 		}
 	});
 	return snippets;
-}
-
-async function loadPage(browser: Browser, url: string): Promise<Page> {
-	const page = await browser.newPage();
-	await page.goto(url);
-	return page;
 }
 
 async function render(
