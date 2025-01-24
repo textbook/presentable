@@ -9,7 +9,7 @@ import { loadFont } from "./style.js";
 interface Options {
 	background: boolean;
 	font?: string;
-	printWidth: number
+	printWidth: number;
 	styleCss: string;
 }
 
@@ -75,7 +75,9 @@ async function render(
 	if (font) {
 		await loadFont(page, font);
 	} else {
-		await page.addStyleTag({ content: ".hljs { font-family: ui-monospace, monospace; }" })
+		await page.addStyleTag({
+			content: ".hljs { font-family: ui-monospace, monospace; }",
+		});
 	}
 	if (!background) {
 		await page.addStyleTag({
