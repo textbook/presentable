@@ -19,6 +19,7 @@
     "lint": "eslint . && prettier --check src/**/*.ts",
     "prestart": "npm run build",
     "start": "node lib/cli.js",
+    "test": "node --import ./tsNode.js --test src/*.test.ts",
     "test-snippet": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "jest": {
@@ -58,7 +59,10 @@
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "express": "^4.21.2",
+    "globals": "^15.14.0",
     "jest": "^29.7.0",
+    "tesseract.js": "^6.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.21.0"
   }
