@@ -6,6 +6,9 @@ import { Browser, Page } from "puppeteer";
 import { formatSnippet } from "./format.js";
 import { loadFont } from "./style.js";
 
+const JS_ISH = /^\.[cm]?[jt]sx?$/;
+const SNIPPET = /^\/\/#region.*$/m;
+
 interface Options {
 	background: boolean;
 	font?: string;
@@ -21,7 +24,7 @@ export async function processExample(
 ): Promise<void> {
 	const { dir, ext, name } = parse(source);
 	const content = await readFile(source, "utf-8");
-	if (/^\/\/#region.*$/m.exec(content) !== null) {
+	if (JS_ISH.exec(ext) !== null && SNIPPET.exec(content) !== null) {
 		const snippets = extractSnippets(content);
 		for (let index = 0; index < snippets.length; index++) {
 			const page = await browser.newPage();
