@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: 20
       - run: npm run lint
+      - run: npm run test
       - run: npm run build
       - run: npm pack
       - run: mv presentable-*.tgz package.tgz
