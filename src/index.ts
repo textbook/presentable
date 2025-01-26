@@ -22,18 +22,17 @@ export async function processExample(
 	const { dir, ext, name } = parse(source);
 	const content = await readFile(source, "utf-8");
 	if (/^\/\/#region.*$/m.exec(content) !== null) {
-		await Promise.all(
-			extractSnippets(content).map(async (snippet, index) => {
-				const page = await browser.newPage();
-				await render(
-					page,
-					snippet,
-					format({ dir, ext, name: `${name}-${index + 1}` }),
-					outDir,
-					options,
-				);
-			}),
-		);
+		const snippets = extractSnippets(content);
+		for (let index = 0; index < snippets.length; index++) {
+			const page = await browser.newPage();
+			await render(
+				page,
+				snippets[index],
+				format({ dir, ext, name: `${name}-${index + 1}` }),
+				outDir,
+				options,
+			);
+		}
 		return;
 	}
 	const page = await browser.newPage();
