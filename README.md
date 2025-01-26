@@ -19,11 +19,11 @@ presentable \
   path/to/snippets/*.js
 ```
 
-would create an image (`test-1.png`) like:
+would create an image (`test.png`) like:
 
 [![Image of a formatted code sample][1]][1]
 
-along with the HTML (`test-1.html`) used to render the image.
+along with the HTML (`test.html`) used to render the image.
 
 ### Arguments
 

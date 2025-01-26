@@ -23,20 +23,23 @@ export async function processExample(
 	options: Options,
 ): Promise<void> {
 	const { dir, ext, name } = parse(source);
-	const content = await readFile(source, "utf-8");
+	let content = await readFile(source, "utf-8");
 	if (JS_ISH.exec(ext) !== null && SNIPPET.exec(content) !== null) {
 		const snippets = extractSnippets(content);
-		for (let index = 0; index < snippets.length; index++) {
-			const page = await browser.newPage();
-			await render(
-				page,
-				snippets[index],
-				format({ dir, ext, name: `${name}-${index + 1}` }),
-				outDir,
-				options,
-			);
+		if (snippets.length !== 1) {
+			for (let index = 0; index < snippets.length; index++) {
+				const page = await browser.newPage();
+				await render(
+					page,
+					snippets[index],
+					format({ dir, ext, name: `${name}-${index + 1}` }),
+					outDir,
+					options,
+				);
+			}
+			return;
 		}
-		return;
+		content = snippets[0];
 	}
 	const page = await browser.newPage();
 	await render(page, content, source, outDir, options);
