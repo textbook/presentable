@@ -86,12 +86,12 @@ async function render(
 	const htmlFile = join(outDir, `${name}.html`);
 	console.info(`writing ${htmlFile}`);
 	await writeFile(htmlFile, await page.content());
-	const pngFile = join(outDir, `${name}.png`);
-	console.info(`writing ${pngFile}`);
+	const pngFile = join(outDir, name);
+	console.info(`writing ${pngFile}.png`);
 	await page.screenshot({
 		clip: (await page.$("#root").then((el) => el?.boundingBox())) ?? undefined,
 		omitBackground: !background,
-		path: pngFile,
+		path: `${pngFile}.png`,
 		type: "png",
 	});
 }
