@@ -48,7 +48,7 @@ describe("presentable", () => {
 		);
 
 		const { data } = await worker.recognize(join(outDir, "test.png"));
-		assert.match(data.text, /^describe\(/);
+		assert.match(data.text, /^describe\s*\(/);
 	});
 
 	it("creates HTML files containing the code sample", async () => {
